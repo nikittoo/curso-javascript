@@ -12,37 +12,40 @@ function greet(name) {
   console.log('greet:', msg);
 }
 
-// 2) Añadir producto (usa parámetros)
 function addProduct(stockArray, productName, amount) {
   const amt = Number(amount);
+
   if (Number.isNaN(amt) || amt <= 0) {
     alert('Cantidad inválida para agregar.');
     return false;
   }
+
   for (let i = 0; i < stockArray.length; i++) {
     if (stockArray[i].name.toLowerCase() === productName.toLowerCase()) {
-      stockArray[i].qty += amt; // condicional: si existe
+      stockArray[i].qty += amt;
       console.log('Producto actualizado:', stockArray[i]);
       return true;
     }
   }
+
   stockArray.push({ name: productName, qty: amt, price: 0 });
   console.log('Producto agregado:', productName, amt);
   return true;
 }
 
-// 3) Vender producto (usa parámetros)
 function sellProduct(stockArray, productName, amount) {
   const amt = Number(amount);
+
   if (Number.isNaN(amt) || amt <= 0) {
     alert('Cantidad inválida para vender.');
     return false;
   }
+
   for (let i = 0; i < stockArray.length; i++) {
     if (stockArray[i].name.toLowerCase() === productName.toLowerCase()) {
       if (stockArray[i].qty < amt) {
         alert('No hay suficiente stock.');
-        return false; // condicional: insuficiente
+        return false;
       }
       stockArray[i].qty -= amt;
       alert(`Venta realizada: ${amt} x ${stockArray[i].name}`);
@@ -50,11 +53,11 @@ function sellProduct(stockArray, productName, amount) {
       return true;
     }
   }
+
   alert('Producto no encontrado.');
   return false;
 }
 
-// 4) Mostrar stock (usa for)
 function showStock(stockArray) {
   let text = 'Stock actual:\n';
   for (let i = 0; i < stockArray.length; i++) {
@@ -64,7 +67,6 @@ function showStock(stockArray) {
   alert(text);
 }
 
-// 5) Contar productos con stock menor o igual a un umbral
 function countLowStock(stockArray, threshold) {
   const th = Number(threshold);
   if (Number.isNaN(th)) return 0;
@@ -76,15 +78,16 @@ function countLowStock(stockArray, threshold) {
   return count;
 }
 
-// Flujo principal (while) — interacción por prompt/alert/console
 (function main() {
   const user = prompt('Ingresa tu nombre:');
+
   if (user && user.trim() !== '') greet(user.trim());
 
   let running = true;
+  
   while (running) {
     const opt = prompt('Elige: 1-Ver stock, 2-Agregar, 3-Vender, 4-Contar bajo stock, 5-Salir');
-    if (opt === null) break; // usuario canceló
+    if (opt === null) break;
 
     if (opt === '1') {
       showStock(stock);

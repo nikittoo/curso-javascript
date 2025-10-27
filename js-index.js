@@ -2,8 +2,10 @@ console.log('Simulador simple cargado');
 
 const storeName = 'Mi Despensa';
 const stock = [
-  { name: 'Pan', qty: 5, price: 1 },
-  { name: 'Leche', qty: 3, price: 0.8 }
+  { name: 'Pan', qty: 5, price: 44 },
+  { name: 'Leche', qty: 3, price: 21 },
+  { name: 'Huevos', qty: 12, price: 35 },
+  { name: 'Harina', qty: 28, price: 45 }
 ];
 
 function greet(name) {

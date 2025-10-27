@@ -1,5 +1,3 @@
-console.log('Simulador simple cargado');
-
 const storeName = 'Mi Despensa';
 const stock = [
   { name: 'Pan', qty: 5, price: 44 },

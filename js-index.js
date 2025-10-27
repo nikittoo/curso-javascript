@@ -94,11 +94,15 @@ function countLowStock(stockArray, threshold) {
     } else if (opt === '2') {
       const name = prompt('Nombre del producto a agregar:');
       const amt = prompt('Cantidad a agregar:');
-      if (name && amt) addProduct(stock, name.trim(), amt);
+      if (name && amt) {
+        addProduct(stock, name.trim(), amt);
+      }
     } else if (opt === '3') {
       const name = prompt('Nombre del producto a vender:');
       const amt = prompt('Cantidad a vender:');
-      if (name && amt) sellProduct(stock, name.trim(), amt);
+      if (name && amt) {
+        sellProduct(stock, name.trim(), amt);
+      }
     } else if (opt === '4') {
       const th = prompt('Umbral (ej: 2):');
       const c = countLowStock(stock, th);

@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulador de Stock</title>
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="estilos/style.css">
 </head>
 
 <body>
     <div id="app">
-        <h1>Simulador de Stock - <span id="storeName"></span></h1>
+        <h1>Simulador de Stock - <span id="kioscoNombre"></span></h1>
         
         <div id="greeting">
             <label>Tu nombre:</label>
-            <input type="text" id="userName" placeholder="Ingresa tu nombre">
+            <input type="text" id="btnuserName" placeholder="Ingresa tu nombre">
             <button id="btnGreet">Saludar</button>
             <p id="greetMessage"></p>
         </div>
@@ -39,14 +39,14 @@
 
             <div>
                 <h3>3. Vender Producto</h3>
-                <input type="text" id="sellName" placeholder="Nombre producto">
-                <input type="number" id="sellQty" placeholder="Cantidad">
+                <input type="text" id="venderNombre" placeholder="Nombre producto">
+                <input type="number" id="venderCantidad" placeholder="Cantidad">
                 <button id="btnSell">Vender</button>
             </div>
 
             <div>
                 <h3>4. Contar Stock Bajo</h3>
-                <input type="number" id="threshold" placeholder="Umbral (ej: 2)">
+                <input type="number" id="btnumbralNumero" placeholder="Umbral (ej: 2)">
                 <button id="btnCountLow">Contar</button>
             </div>
         </div>
@@ -64,6 +64,6 @@
         </div>
     </div>
 
-    <script src="js-index.js"></script>
+    <script src="js/js-index.js" defer></script>
 </body>
 </html>

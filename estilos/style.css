@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e0f7ff;
+  padding: 20px;
+}
+
+h1 {
+  color: #006b8f;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input, button {
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #0099cc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #0099cc;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #006b8f;
+}
+
+#stockList div {
+  background-color: white;
+  padding: 10px;
+  margin: 5px 0;
+  border-left: 3px solid #0099cc;
+}
+
+.mensaje-error {
+  color: red;
+  font-weight: bold;
+}
+
+.mensaje-exito {
+  color: green;
+  font-weight: bold;
+}

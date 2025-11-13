@@ -1,13 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Simulador de Stock</title>
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
+    <div id="app">
+        <h1>Simulador de Stock - <span id="storeName"></span></h1>
+        
+        <div id="greeting">
+            <label>Tu nombre:</label>
+            <input type="text" id="userName" placeholder="Ingresa tu nombre">
+            <button id="btnGreet">Saludar</button>
+            <p id="greetMessage"></p>
+        </div>
+
+        <hr>
+
+        <div id="actions">
+            <h2>Acciones</h2>
+            
+            <div>
+                <h3>1. Ver Stock</h3>
+                <button id="btnShowStock">Mostrar Stock</button>
+            </div>
+
+            <div>
+                <h3>2. Agregar Producto</h3>
+                <input type="text" id="addName" placeholder="Nombre producto">
+                <input type="number" id="addQty" placeholder="Cantidad">
+                <button id="btnAdd">Agregar</button>
+            </div>
+
+            <div>
+                <h3>3. Vender Producto</h3>
+                <input type="text" id="sellName" placeholder="Nombre producto">
+                <input type="number" id="sellQty" placeholder="Cantidad">
+                <button id="btnSell">Vender</button>
+            </div>
+
+            <div>
+                <h3>4. Contar Stock Bajo</h3>
+                <input type="number" id="threshold" placeholder="Umbral (ej: 2)">
+                <button id="btnCountLow">Contar</button>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="output">
+            <h2>Resultados</h2>
+            <div id="results"></div>
+        </div>
+
+        <div id="stockDisplay">
+            <h2>Stock Actual</h2>
+            <div id="stockList"></div>
+        </div>
+    </div>
+
     <script src="js-index.js"></script>
 </body>
 </html>

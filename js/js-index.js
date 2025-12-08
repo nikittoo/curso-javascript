@@ -28,11 +28,11 @@ function cargarInventarioInicial() {
 function recargarInventario() {
   try {
     const guardado = localStorage.getItem("inventario");
-    
+
     if (guardado !== null) {
-      
+
       const inventarioParseado = JSON.parse(guardado);
-      
+
       if (inventarioParseado.length > 0 && inventarioParseado[0].nombreProducto !== undefined) {
         inventario = inventarioParseado;
       } else {
@@ -57,63 +57,78 @@ function sanitizarNombre(nombre) {
   nombreLimpio = nombreLimpio.replace(/[^a-zA-Z0-9\s]/g, ''); // quita caracteres especiales
   nombreLimpio = nombreLimpio.toLowerCase(); // convierte a minúsculas
   return nombreLimpio;
-}
+} // visto, quita caracteres especiales y espacios innecesarios
 
 function validarNombreProducto(nombre) {
-  if (nombre.length < 2 || nombre.length > 50 || /^\s*$/.test(nombre)) {
+  if (nombre.length < 2 || nombre.length > 50) { // Google me dio || /^\s*$/.test(nombre) como opcion para limpiar espacios, me parecio mala practica
     return false;
   }
   return true;
-}
+} // visto, este bloque se ejecuta despues de que el nombre se haya sanitizado
 
 function validarCantidad(cantidad) {
-  const amt = Number(cantidad);
-  return !Number.isNaN(amt) && amt > 0;
-}
+  const num = Number(cantidad);
+
+  if (!Number.isNaN(num) && num > 0) {
+    return true;
+  }
+
+  return false;
+} // visto, valida que la cantidad sea un numero positivo y que sea un numero
 
 function validarPrecio(precio) {
-  const amt = Number(precio);
-  return !Number.isNaN(amt) && amt >= 0;
-}
+  const num = Number(precio);
+
+  if (!Number.isNaN(num) && num >= 0) {
+    return true;
+  }
+
+  return false;
+} // visto, valida que el precio sea un numero positivo o cero y que sea un numero
 
 function encontrarProducto(productos, nombre) {
-  return productos.find(producto => producto.nombreProducto === nombre);
-}
+  const productoEncontrado = productos.find(producto => producto.nombreProducto === nombre);
+  return productoEncontrado;
+} // visto, busca un producto por nombre y lo devuelve o undefined
 
 function agregarProducto(productos, nombreProducto, cantidad, precioProducto) {
-  if (!validarCantidad(cantidad)) {
+
+  if (validarCantidad(cantidad) === false) {
     mostrarMensaje("Cantidad inválida para agregar.", true);
     return false;
   }
 
-  if (!validarPrecio(precioProducto)) {
+  if (validarPrecio(precioProducto) === false) {
     mostrarMensaje("Precio inválido.", true);
     return false;
   }
 
   const nombreLimpio = sanitizarNombre(nombreProducto);
-  if (!validarNombreProducto(nombreLimpio)) {
+  
+  if (validarNombreProducto(nombreLimpio) === false) {
     mostrarMensaje("Nombre inválido (solo alfanuméricos y espacios, 2-50 caracteres).", true);
     return false;
   }
 
   const productoEncontrado = encontrarProducto(productos, nombreLimpio);
 
-  if (productoEncontrado) {
-    productoEncontrado.cantidadProducto += Number(cantidad);
+  if (productoEncontrado !== undefined) {
+    productoEncontrado.cantidadProducto = productoEncontrado.cantidadProducto + Number(cantidad);
     mostrarMensaje(`Producto actualizado: ${nombreLimpio} - Nueva cantidad: ${productoEncontrado.cantidadProducto}`);
   } else {
     productos.push({ nombreProducto: nombreLimpio, cantidadProducto: Number(cantidad), precioProducto: Number(precioProducto) });
     mostrarMensaje(`Producto agregado: ${nombreLimpio} - Cantidad: ${cantidad} - Precio: $${precioProducto}`);
   }
 
-  actualizarVistaInventario();
-  guardarInventario();
+  actualizarVistaInventario(); // me actualiza la vista del inventario
+  guardarInventario(); // me guarda el inventario actualizado
+
   return true;
-}
+} // visto, agrega producto si no existe, si existe actualiza cantidad
 
 function venderProducto(productos, nombreProducto, cantidad) {
-  if (!validarCantidad(cantidad)) {
+
+  if (validarCantidad(cantidad) === false) {
     mostrarMensaje("Cantidad inválida para vender.", true);
     return false;
   }

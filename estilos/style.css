@@ -8,12 +8,51 @@ body {
   font-family: Arial, sans-serif;
   background-color: #e0f7ff;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#aplicacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 h1 {
   color: #006b8f;
   text-align: center;
   margin-bottom: 20px;
+  width: 100%;
+}
+
+.kiosco-image {
+  max-width: 30%;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#navigation, #greeting, #actions, #output, #mostrarStock, #reportes {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#actions {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  justify-items: stretch;
+}
+
+#actions div {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 input, button {
@@ -33,11 +72,12 @@ button:hover {
   background-color: #006b8f;
 }
 
-#stockList div {
+#listaStock div {
   background-color: white;
   padding: 10px;
   margin: 5px 0;
   border-left: 3px solid #0099cc;
+  text-align: left;
 }
 
 .mensaje-error {
@@ -48,4 +88,18 @@ button:hover {
 .mensaje-exito {
   color: green;
   font-weight: bold;
+}
+
+hr {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px 0;
+}
+
+.toast-success {
+  background: linear-gradient(to right, #00b09b, #96c93d) !important;
+}
+
+.toast-error {
+  background: linear-gradient(to right, #ff5f6d, #ffc371) !important;
 }

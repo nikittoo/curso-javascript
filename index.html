@@ -9,18 +9,26 @@
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=">
     <link rel="stylesheet" href="estilos/style.css">
 
-    <script defer src = "./js/js-index.js"></script>
+    <script defer src="./js/async-errors.js"></script>
+    <script defer src="./js/js-index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <div id="app">
-        <h1>Simulador de Stock - <span id="kioscoNombre"></span></h1>
+        <div id="aplicacion">
+        <h1>Simulador de Stock - <span id="nombreKiosco"></span></h1>
+        <img src="assets/kiosco.jpg" alt="Imagen del kiosco" class="kiosco-image">
+        
+        <div id="navigation">
+            <button id="btnIrReportes">Ir a Reportes</button>
+        </div>
         
         <div id="greeting">
             <label>Tu nombre:</label>
-            <input type="text" id="btnuserName" placeholder="Ingresa tu nombre">
-            <button id="btnGreet">Saludar</button>
-            <p id="greetMessage"></p>
+            <input type="text" id="nombreUsuario" placeholder="Ingresa tu nombre">
+            <button id="btnSaludar">Saludar</button>
+            <p id="mensajeSaludo"></p>
         </div>
 
         <hr>
@@ -30,27 +38,28 @@
             
             <div>
                 <h3>1. Ver Stock</h3>
-                <button id="btnShowStock">Mostrar Stock</button>
+                <button id="btnMostrarStock">Mostrar Stock</button>
             </div>
 
             <div>
                 <h3>2. Agregar Producto</h3>
-                <input type="text" id="addName" placeholder="Nombre producto">
-                <input type="number" id="addQty" placeholder="Cantidad">
-                <button id="btnAdd">Agregar</button>
+                <input type="text" id="nombreProductoAgregar" placeholder="Nombre producto">
+                <input type="number" id="cantidadProductoAgregar" placeholder="Cantidad">
+                <input type="number" id="precioProductoAgregar" placeholder="Precio">
+                <button id="btnAgregar">Agregar</button>
             </div>
 
             <div>
                 <h3>3. Vender Producto</h3>
-                <input type="text" id="venderNombre" placeholder="Nombre producto">
-                <input type="number" id="venderCantidad" placeholder="Cantidad">
-                <button id="btnSell">Vender</button>
+                <input type="text" id="nombreProductoVender" placeholder="Nombre producto">
+                <input type="number" id="cantidadProductoVender" placeholder="Cantidad">
+                <button id="btnVender">Vender</button>
             </div>
 
             <div>
                 <h3>4. Contar Stock Bajo</h3>
-                <input type="number" id="btnumbralNumero" placeholder="Umbral (ej: 2)">
-                <button id="btnCountLow">Contar</button>
+                <input type="number" id="numeroUmbral" placeholder="Umbral (ej: 2)">
+                <button id="btnContarBajo">Contar</button>
             </div>
         </div>
 
@@ -58,12 +67,12 @@
 
         <div id="output">
             <h2>Resultados</h2>
-            <div id="results"></div>
+            <div id="resultados"></div>
         </div>
 
-        <div id="stockDisplay">
+        <div id="mostrarStock">
             <h2>Stock Actual</h2>
-            <div id="stockList"></div>
+            <div id="listaStock"></div>
         </div>
     </div>
 </body>

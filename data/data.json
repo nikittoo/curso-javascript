@@ -1,0 +1,22 @@
+[
+  {
+    "nombreProducto": "Pan",
+    "cantidadProducto": 5,
+    "precioProducto": 44
+  },
+  {
+    "nombreProducto": "Leche",
+    "cantidadProducto": 3,
+    "precioProducto": 21
+  },
+  {
+    "nombreProducto": "Huevos",
+    "cantidadProducto": 12,
+    "precioProducto": 35
+  },
+  {
+    "nombreProducto": "Harina",
+    "cantidadProducto": 28,
+    "precioProducto": 45
+  }
+]

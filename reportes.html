@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes de Stock</title>
+    
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=">
+    <link rel="stylesheet" href="estilos/style.css">
+
+    <script defer src="./js/reportes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="aplicacion">
+        <h1>Reportes de Stock - <span id="nombreKiosco"></span></h1>
+        <img src="assets/kiosco.jpg" alt="Imagen del kiosco" class="kiosco-image">
+        
+        <div id="navigation">
+            <button id="btnVolverPrincipal">Volver al Simulador</button>
+        </div>
+
+        <hr>
+
+        <div id="reportes">
+            <h2>Reportes</h2>
+            
+            <div id="totalProductos">
+                <h3>Total de Productos</h3>
+                <p id="valorTotalProductos">Cargando...</p>
+            </div>
+
+            <div id="valorTotal">
+                <h3>Valor Total del Inventario</h3>
+                <p id="valorTotalInventario">Cargando...</p>
+            </div>
+
+            <div id="stockBajo">
+                <h3>Productos con Stock Bajo (≤ 5)</h3>
+                <p id="valorStockBajo">Cargando...</p>
+            </div>
+
+            <div id="productosTop">
+                <h3>Productos con Mayor Stock</h3>
+                <ul id="listaProductosTop"></ul>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="output">
+            <h2>Resultados</h2>
+            <div id="results"></div>
+        </div>
+    </div>
+</body>
+</html>

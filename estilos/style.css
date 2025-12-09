@@ -103,3 +103,11 @@ hr {
 .toast-error {
   background: linear-gradient(to right, #ff5f6d, #ffc371) !important;
 }
+
+.swal-confirmar-boton {
+  background-color: #3085d6 !important;
+}
+
+.swal-cancelar-boton {
+  background-color: #d33 !important;
+}

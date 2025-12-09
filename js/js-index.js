@@ -9,18 +9,18 @@ function cargarInventarioInicial() {
       inventario = JSON.parse(guardado);
     } catch (error) {
       inventario = [
-        { nombreProducto: "Pan", cantidadProducto: 5, precioProducto: 44 },
-        { nombreProducto: "Leche", cantidadProducto: 3, precioProducto: 21 },
-        { nombreProducto: "Huevos", cantidadProducto: 12, precioProducto: 35 },
-        { nombreProducto: "Harina", cantidadProducto: 28, precioProducto: 45 }
+        { nombreProducto: "pan", cantidadProducto: 5, precioProducto: 44 },
+        { nombreProducto: "leche", cantidadProducto: 3, precioProducto: 21 },
+        { nombreProducto: "huevos", cantidadProducto: 12, precioProducto: 35 },
+        { nombreProducto: "harina", cantidadProducto: 28, precioProducto: 45 }
       ];
     }
   } else {
     inventario = [
-      { nombreProducto: "Pan", cantidadProducto: 5, precioProducto: 44 },
-      { nombreProducto: "Leche", cantidadProducto: 3, precioProducto: 21 },
-      { nombreProducto: "Huevos", cantidadProducto: 12, precioProducto: 35 },
-      { nombreProducto: "Harina", cantidadProducto: 28, precioProducto: 45 }
+      { nombreProducto: "pan", cantidadProducto: 5, precioProducto: 44 },
+      { nombreProducto: "leche", cantidadProducto: 3, precioProducto: 21 },
+      { nombreProducto: "huevos", cantidadProducto: 12, precioProducto: 35 },
+      { nombreProducto: "harina", cantidadProducto: 28, precioProducto: 45 }
     ];
   }
 } // visto, localStorage manejado, traigo datos, si no le cargo datos por defecto
@@ -104,7 +104,7 @@ function agregarProducto(productos, nombreProducto, cantidad, precioProducto) {
   }
 
   const nombreLimpio = sanitizarNombre(nombreProducto);
-  
+
   if (validarNombreProducto(nombreLimpio) === false) {
     mostrarMensaje("Nombre inválido (solo alfanuméricos y espacios, 2-50 caracteres).", true);
     return false;
@@ -136,176 +136,160 @@ function venderProducto(productos, nombreProducto, cantidad) {
   const nombreLimpio = sanitizarNombre(nombreProducto);
   const productoEncontrado = encontrarProducto(productos, nombreLimpio);
 
-  if (productoEncontrado) {
+  if (productoEncontrado !== undefined) {
+
     if (productoEncontrado.cantidadProducto < Number(cantidad)) {
       mostrarMensaje("No hay suficiente inventario.", true);
       return false;
     }
-    productoEncontrado.cantidadProducto -= Number(cantidad);
+
+    productoEncontrado.cantidadProducto = productoEncontrado.cantidadProducto - Number(cantidad);
+
+    if (productoEncontrado.cantidadProducto <= 0) {
+      productos = productos.filter(producto => producto.nombreProducto !== productoEncontrado.nombreProducto);
+    }
+
     mostrarMensaje(`Venta realizada: ${cantidad} x ${productoEncontrado.nombreProducto}`);
     actualizarVistaInventario();
     guardarInventario();
-    return true;
-  }
 
-  mostrarMensaje("Producto no encontrado.", true);
-  return false;
-}
+    return true;
+  } else {
+    mostrarMensaje("Producto no encontrado.", true);
+    return false;
+  }
+} // visto, vende producto si hay suficiente stock, si no muestra error
 
 function contarProductosBajoStock(productos, umbral) {
-  const th = Number(umbral);
+  const num = Number(umbral);
 
-  if (Number.isNaN(th)) {
+  if (Number.isNaN(num)) {
     mostrarMensaje("Umbral inválido.", true);
     return 0;
   }
 
-  const productosBajoStock = productos.filter(producto => producto.cantidadProducto <= th);
+  const productosBajoStock = productos.filter(producto => producto.cantidadProducto <= num);
+  mostrarMensaje(`Productos con stock <= ${num}: ${productosBajoStock.length}`);
 
-  mostrarMensaje(`Productos con stock <= ${th}: ${productosBajoStock.length}`);
   return productosBajoStock.length;
-}
+} // visto, cuenta productos bajo stock segun umbral
 
 // Funciones para interfaz de usuario
 function mostrarMensaje(mensaje, esError = false) {
   let className;
-  if (esError) {
+
+  if (esError === true) {
     className = "toast-error";
   } else {
     className = "toast-success";
   }
+
   Toastify({
     text: mensaje,
     duration: 3000,
-    gravity: "top",
-    position: "right",
+    style: {
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      zIndex: 9999
+    },
     className: className,
-    stopOnFocus: true,
   }).showToast();
-}
+} // visto, muestra mensajes de exito o error usando Toastify
 
 function saludar(nombrePersonal) {
   const mensaje = `Hola, ${nombrePersonal}! Bienvenido a ${nombreTienda}.`;
   document.getElementById("mensajeSaludo").textContent = mensaje;
-}
+} // visto, muestra mensaje de saludo personalizado
 
 function mostrarTodoInventario(productos) {
   const listaInventario = document.getElementById("listaStock");
   const elementos = [];
+
   productos.forEach(producto => {
     elementos.push(`<div>${producto.nombreProducto} - Cant: ${producto.cantidadProducto} - Precio: $${producto.precioProducto} 
-    <button onclick="editarProducto('${producto.nombreProducto}')">Editar</button> 
+    <button onclick="prepararEdicion('${producto.nombreProducto}')">Editar</button> 
     <button onclick="eliminarProducto('${producto.nombreProducto}')">Eliminar</button></div>`);
   });
+
   listaInventario.innerHTML = elementos.join("");
-}
+} // visto, muestra todo el inventario en la seccion correspondiente
 
 function actualizarVistaInventario() {
   mostrarTodoInventario(inventario);
-}
+} // visto, actualiza la vista del inventario
 
 // Funciones para eliminar y editar productos
-async function eliminarProducto(nombre) {
-  const result = await Swal.fire({
-    title: "¿Estás seguro?",
-    text: `¿Quieres eliminar "${nombre}"?`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, eliminar",
-    cancelButtonText: "Cancelar"
-  });
+function eliminarProducto(nombre) {
+  inventario = inventario.filter(producto => producto.nombreProducto !== nombre);
+  actualizarVistaInventario();
+  guardarInventario();
+  mostrarMensaje(`Producto "${nombre}" eliminado.`);
+} // visto, elimina producto del inventario
 
-  if (result.isConfirmed) {
-    try {
-      inventario = inventario.filter(producto => producto.nombreProducto !== nombre);
-      actualizarVistaInventario();
-      guardarInventario();
-      mostrarMensaje(`Producto "${nombre}" eliminado.`);
-    } catch (error) {
-      mostrarMensaje("Error al eliminar el producto.", true);
-    }
+function prepararEdicion(nombre) {
+  const producto = encontrarProducto(inventario, nombre);
+
+  if (producto === undefined) {
+    mostrarMensaje("Producto no encontrado para edición.", true);
+    return;
   }
-}
 
-async function editarProducto(nombre) {
+  document.getElementById("nombreProductoEditar").value = producto.nombreProducto;
+  document.getElementById("cantidadProductoEditar").value = producto.cantidadProducto;
+  document.getElementById("precioProductoEditar").value = producto.precioProducto;
+
+  mostrarMensaje("Campos de edición llenados. Modifica cantidad y precio, luego presiona 'Editar Producto'.");
+} // visto, prepara los inputs de edicion con los valores del producto seleccionado
+
+function editarProducto() {
   try {
-    const producto = encontrarProducto(inventario, nombre);
-    if (!producto) return;
+    const nombre = document.getElementById("nombreProductoEditar").value.toLowerCase();
 
-    const { value: nuevoNombre } = await Swal.fire({
-      title: "Editar producto",
-      input: "text",
-      inputLabel: "Nuevo nombre del producto",
-      inputValue: producto.nombreProducto,
-      showCancelButton: true,
-      inputValidator: (value) => {
-        if (!value) {
-          return "Debes ingresar un nombre!";
-        }
-        const nombreLimpio = sanitizarNombre(value);
-        if (!validarNombreProducto(nombreLimpio)) {
-          return "Nombre inválido (solo alfanuméricos y espacios, 2-50 caracteres).";
-        }
-        if (nombreLimpio !== nombre && encontrarProducto(inventario, nombreLimpio)) {
-          return "Ya existe un producto con ese nombre.";
-        }
-      }
-    });
-
-    if (nuevoNombre) {
-      const nombreLimpio = sanitizarNombre(nuevoNombre);
-
-      const { value: nuevaCantidad } = await Swal.fire({
-        title: "Editar producto",
-        input: "number",
-        inputLabel: "Nueva cantidad",
-        inputValue: producto.cantidadProducto,
-        showCancelButton: true,
-        inputValidator: (value) => {
-          if (!validarCantidad(value)) {
-            return "Cantidad inválida.";
-          }
-        }
-      });
-
-      if (nuevaCantidad) {
-        const { value: nuevoPrecio } = await Swal.fire({
-          title: "Editar producto",
-          input: "number",
-          inputLabel: "Nuevo precio",
-          inputValue: producto.precioProducto,
-          showCancelButton: true,
-          inputValidator: (value) => {
-            if (!validarPrecio(value)) {
-              return "Precio inválido.";
-            }
-          }
-        });
-
-        if (nuevoPrecio !== undefined) {
-          producto.nombreProducto = nombreLimpio;
-          producto.cantidadProducto = Number(nuevaCantidad);
-          producto.precioProducto = Number(nuevoPrecio);
-          actualizarVistaInventario();
-          guardarInventario();
-          mostrarMensaje(`Producto editado: ${nombreLimpio}.`);
-        }
-      }
+    if (nombre === "") {
+      mostrarMensaje("Selecciona un producto para editar.", true);
+      return;
     }
+
+    const producto = encontrarProducto(inventario, nombre);
+
+    if (!producto) {
+      mostrarMensaje("Producto no encontrado.", true);
+      return;
+    }
+
+    const nuevaCantidad = document.getElementById("cantidadProductoEditar").value;
+    if (!nuevaCantidad || !validarCantidad(nuevaCantidad)) {
+      mostrarMensaje("Cantidad inválida.", true);
+      return;
+    }
+
+    const nuevoPrecio = document.getElementById("precioProductoEditar").value;
+    if (nuevoPrecio === "" || !validarPrecio(nuevoPrecio)) {
+      mostrarMensaje("Precio inválido.", true);
+      return;
+    }
+
+    producto.cantidadProducto = Number(nuevaCantidad);
+    producto.precioProducto = Number(nuevoPrecio);
+    actualizarVistaInventario();
+    guardarInventario();
+    mostrarMensaje(`Producto editado: ${nombre}.`);
+
+    // Limpiar inputs
+    document.getElementById("nombreProductoEditar").value = "";
+    document.getElementById("cantidadProductoEditar").value = "";
+    document.getElementById("precioProductoEditar").value = "";
   } catch (error) {
     mostrarMensaje("Error al editar el producto.", true);
   }
 }
 
-// Inicialización
-(() => {
-  cargarInventarioInicial();
-  recargarInventario();
-  document.getElementById("nombreKiosco").textContent = nombreTienda;
-  actualizarVistaInventario();
-})();
+// Inicia
+cargarInventarioInicial();
+recargarInventario();
+document.getElementById("nombreKiosco").textContent = nombreTienda;
+actualizarVistaInventario();
 
 // configuración de interacciones
 document.getElementById("btnIrReportes").addEventListener("click", () => {
@@ -355,13 +339,6 @@ document.getElementById("btnVender").addEventListener("click", () => {
   }
 });
 
-document.getElementById("btnContarBajo").addEventListener("click", () => {
-  const umbral = document.getElementById("numeroUmbral").value;
-
-  if (umbral) {
-    contarProductosBajoStock(inventario, umbral);
-    document.getElementById("numeroUmbral").value = ""; // limpia el input
-  } else {
-    mostrarMensaje("Ingresa un umbral.", true);
-  }
+document.getElementById("btnEditar").addEventListener("click", () => {
+  editarProducto();
 });

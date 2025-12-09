@@ -16,7 +16,7 @@ function cargarInventario() {
   }
 
   return [];
-} // revisado 
+}
 
 function mostrarMensaje(mensaje, esError = false) {
   let className;
@@ -27,15 +27,18 @@ function mostrarMensaje(mensaje, esError = false) {
     className = "toast-success";
   }
 
-  Toastify({
+    Toastify({
     text: mensaje,
     duration: 3000,
-    gravity: "top",
-    position: "right",
+    style: {
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      zIndex: 9999
+    },
     className: className,
-    stopOnFocus: true,
   }).showToast();
-} // revisado
+}
 
 function generarReportes() {
   const inventario = cargarInventario();
@@ -46,10 +49,13 @@ function generarReportes() {
   const valorTotal = inventario.reduce((total, producto) => total + (producto.cantidadProducto * producto.precioProducto), 0);
   document.getElementById("valorTotalInventario").textContent = `$${valorTotal}`;
 
-  const bajoStock = inventario.filter(producto => producto.cantidadProducto <= 5);
-  const nombresBajoStock = [];
-  bajoStock.forEach(p => nombresBajoStock.push(p.nombreProducto));
-  document.getElementById("valorStockBajo").textContent = nombresBajoStock.length > 0 ? nombresBajoStock.join(", ") : "Ninguno";
+  const bajoStock = inventario.sort((a, b) => a.cantidadProducto - b.cantidadProducto).slice(0, 3);
+  const mensajes = [];
+  bajoStock.forEach(p => {
+    mensajes.push(`${p.nombreProducto}: ${p.cantidadProducto}\n`);
+  });
+  const mensajeBajoStock = mensajes.join(", ");
+  document.getElementById("valorStockBajo").textContent = mensajeBajoStock || "Ninguno";
 
   const topProductos = inventario.sort((a, b) => b.cantidadProducto - a.cantidadProducto).slice(0, 3);
   const lista = document.getElementById("listaProductosTop");
@@ -67,6 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Event listener para volver
   document.getElementById("btnVolverPrincipal").addEventListener("click", () => {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   });
 });

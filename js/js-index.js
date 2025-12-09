@@ -23,7 +23,7 @@ function cargarInventarioInicial() {
       { nombreProducto: "harina", cantidadProducto: 28, precioProducto: 45 }
     ];
   }
-} // visto, localStorage manejado, traigo datos, si no le cargo datos por defecto
+}
 
 function recargarInventario() {
   try {
@@ -42,7 +42,7 @@ function recargarInventario() {
   } catch (error) {
     mostrarMensaje("Error al cargar el inventario guardado. Usando inventario inicial.", true);
   }
-} // visto, si recarga inventario, si hay error muestra mensaje
+}
 
 function guardarInventario() {
   try {
@@ -50,21 +50,21 @@ function guardarInventario() {
   } catch (error) {
     mostrarMensaje("Error al guardar el inventario. Los cambios no se persistirán.", true);
   }
-} // visto, guarda inventario en localStorage
+}
 
 function sanitizarNombre(nombre) {
-  let nombreLimpio = nombre.trim(); // quita espacios al inicio y final
-  nombreLimpio = nombreLimpio.replace(/[^a-zA-Z0-9\s]/g, ''); // quita caracteres especiales
-  nombreLimpio = nombreLimpio.toLowerCase(); // convierte a minúsculas
+  let nombreLimpio = nombre.trim();
+  nombreLimpio = nombreLimpio.replace(/[^a-zA-Z0-9\s]/g, '');
+  nombreLimpio = nombreLimpio.toLowerCase();
   return nombreLimpio;
-} // visto, quita caracteres especiales y espacios innecesarios
+}
 
 function validarNombreProducto(nombre) {
-  if (nombre.length < 2 || nombre.length > 50) { // Google me dio || /^\s*$/.test(nombre) como opcion para limpiar espacios, me parecio mala practica
+  if (nombre.length < 2 || nombre.length > 50) {
     return false;
   }
   return true;
-} // visto, este bloque se ejecuta despues de que el nombre se haya sanitizado
+}
 
 function validarCantidad(cantidad) {
   const num = Number(cantidad);
@@ -74,7 +74,7 @@ function validarCantidad(cantidad) {
   }
 
   return false;
-} // visto, valida que la cantidad sea un numero positivo y que sea un numero
+}
 
 function validarPrecio(precio) {
   const num = Number(precio);
@@ -84,12 +84,12 @@ function validarPrecio(precio) {
   }
 
   return false;
-} // visto, valida que el precio sea un numero positivo o cero y que sea un numero
+}
 
 function encontrarProducto(productos, nombre) {
   const productoEncontrado = productos.find(producto => producto.nombreProducto === nombre);
   return productoEncontrado;
-} // visto, busca un producto por nombre y lo devuelve o undefined
+}
 
 function agregarProducto(productos, nombreProducto, cantidad, precioProducto) {
 
@@ -120,11 +120,11 @@ function agregarProducto(productos, nombreProducto, cantidad, precioProducto) {
     mostrarMensaje(`Producto agregado: ${nombreLimpio} - Cantidad: ${cantidad} - Precio: $${precioProducto}`);
   }
 
-  actualizarVistaInventario(); // me actualiza la vista del inventario
-  guardarInventario(); // me guarda el inventario actualizado
+  actualizarVistaInventario();
+  guardarInventario();
 
   return true;
-} // visto, agrega producto si no existe, si existe actualiza cantidad
+}
 
 function venderProducto(productos, nombreProducto, cantidad) {
 
@@ -147,7 +147,8 @@ function venderProducto(productos, nombreProducto, cantidad) {
 
     if (productoEncontrado.cantidadProducto <= 0) {
       productos = productos.filter(producto => producto.nombreProducto !== productoEncontrado.nombreProducto);
-    }
+    } 
+    inventario = productos;
 
     mostrarMensaje(`Venta realizada: ${cantidad} x ${productoEncontrado.nombreProducto}`);
     actualizarVistaInventario();
@@ -158,7 +159,7 @@ function venderProducto(productos, nombreProducto, cantidad) {
     mostrarMensaje("Producto no encontrado.", true);
     return false;
   }
-} // visto, vende producto si hay suficiente stock, si no muestra error
+}
 
 function contarProductosBajoStock(productos, umbral) {
   const num = Number(umbral);
@@ -169,10 +170,10 @@ function contarProductosBajoStock(productos, umbral) {
   }
 
   const productosBajoStock = productos.filter(producto => producto.cantidadProducto <= num);
-  mostrarMensaje(`Productos con stock <= ${num}: ${productosBajoStock.length}`);
+  mostrarMensaje(`Productos con stock menor o igual a ${num}: ${productosBajoStock.length}`);
 
   return productosBajoStock.length;
-} // visto, cuenta productos bajo stock segun umbral
+}
 
 // Funciones para interfaz de usuario
 function mostrarMensaje(mensaje, esError = false) {
@@ -195,12 +196,12 @@ function mostrarMensaje(mensaje, esError = false) {
     },
     className: className,
   }).showToast();
-} // visto, muestra mensajes de exito o error usando Toastify
+}
 
 function saludar(nombrePersonal) {
   const mensaje = `Hola, ${nombrePersonal}! Bienvenido a ${nombreTienda}.`;
   document.getElementById("mensajeSaludo").textContent = mensaje;
-} // visto, muestra mensaje de saludo personalizado
+}
 
 function mostrarTodoInventario(productos) {
   const listaInventario = document.getElementById("listaStock");
@@ -213,11 +214,11 @@ function mostrarTodoInventario(productos) {
   });
 
   listaInventario.innerHTML = elementos.join("");
-} // visto, muestra todo el inventario en la seccion correspondiente
+}
 
 function actualizarVistaInventario() {
   mostrarTodoInventario(inventario);
-} // visto, actualiza la vista del inventario
+}
 
 // Funciones para eliminar y editar productos
 function eliminarProducto(nombre) {
@@ -225,7 +226,7 @@ function eliminarProducto(nombre) {
   actualizarVistaInventario();
   guardarInventario();
   mostrarMensaje(`Producto "${nombre}" eliminado.`);
-} // visto, elimina producto del inventario
+}
 
 function prepararEdicion(nombre) {
   const producto = encontrarProducto(inventario, nombre);
@@ -240,7 +241,7 @@ function prepararEdicion(nombre) {
   document.getElementById("precioProductoEditar").value = producto.precioProducto;
 
   mostrarMensaje("Campos de edición llenados. Modifica cantidad y precio, luego presiona 'Editar Producto'.");
-} // visto, prepara los inputs de edicion con los valores del producto seleccionado
+}
 
 function editarProducto() {
   try {
@@ -272,11 +273,11 @@ function editarProducto() {
 
     producto.cantidadProducto = Number(nuevaCantidad);
     producto.precioProducto = Number(nuevoPrecio);
+
     actualizarVistaInventario();
     guardarInventario();
     mostrarMensaje(`Producto editado: ${nombre}.`);
 
-    // Limpiar inputs
     document.getElementById("nombreProductoEditar").value = "";
     document.getElementById("cantidadProductoEditar").value = "";
     document.getElementById("precioProductoEditar").value = "";
@@ -292,15 +293,13 @@ document.getElementById("nombreKiosco").textContent = nombreTienda;
 actualizarVistaInventario();
 
 // configuración de interacciones
-document.getElementById("btnIrReportes").addEventListener("click", () => {
-  window.location.href = "reportes.html";
-});
 
 document.getElementById("btnSaludar").addEventListener("click", () => {
   const nombreUsuario = document.getElementById("nombreUsuario").value;
-  if (nombreUsuario && nombreUsuario.trim() !== "") {
+  
+  if (nombreUsuario !== undefined && nombreUsuario.trim() !== "") {
     saludar(nombreUsuario.trim());
-    document.getElementById("nombreUsuario").value = ""; // limpia el input
+    document.getElementById("nombreUsuario").value = "";
   } else {
     mostrarMensaje("Por favor ingresa tu nombre.", true);
   }
@@ -308,7 +307,6 @@ document.getElementById("btnSaludar").addEventListener("click", () => {
 
 document.getElementById("btnMostrarStock").addEventListener("click", () => {
   actualizarVistaInventario();
-  document.getElementById("mostrarStock").scrollIntoView({ behavior: "smooth" });
   mostrarMensaje("Inventario actualizado en pantalla.");
 });
 
@@ -316,7 +314,8 @@ document.getElementById("btnAgregar").addEventListener("click", () => {
   const nombreProducto = document.getElementById("nombreProductoAgregar").value;
   const cantidadProducto = document.getElementById("cantidadProductoAgregar").value;
   const precioProducto = document.getElementById("precioProductoAgregar").value;
-  if (nombreProducto && cantidadProducto && precioProducto) {
+
+  if (nombreProducto !== undefined && cantidadProducto !== undefined && precioProducto !== undefined) {
     agregarProducto(inventario, nombreProducto.trim(), cantidadProducto, precioProducto);
     document.getElementById("nombreProductoAgregar").value = "";
     document.getElementById("cantidadProductoAgregar").value = "";
@@ -341,4 +340,14 @@ document.getElementById("btnVender").addEventListener("click", () => {
 
 document.getElementById("btnEditar").addEventListener("click", () => {
   editarProducto();
+});
+
+document.getElementById("btnContarBajo").addEventListener("click", () => {
+  const umbral = document.getElementById("numeroUmbral").value;
+  if (umbral) {
+    contarProductosBajoStock(inventario, umbral);
+    document.getElementById("numeroUmbral").value = "";
+  } else {
+    mostrarMensaje("Ingresa un umbral válido.", true);
+  }
 });

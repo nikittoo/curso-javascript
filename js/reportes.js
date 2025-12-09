@@ -1,6 +1,9 @@
 const nombreTienda = "MaxiKioscoArgentina";
 
 function cargarInventario() {
+  let mandarMensaje = "";
+  let hayError = false;
+
   try {
     const guardado = localStorage.getItem("inventario");
 
@@ -12,7 +15,10 @@ function cargarInventario() {
 
     }
   } catch (error) {
-    mostrarMensaje("Error al cargar inventario para reportes.", true);
+    mandarMensaje = "Error al cargar inventario para reportes.";
+    hayError = true;
+  } finally {
+    if (mandarMensaje) mostrarMensaje(mandarMensaje, hayError);
   }
 
   return [];

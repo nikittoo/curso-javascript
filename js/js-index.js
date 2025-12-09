@@ -26,6 +26,9 @@ function cargarInventarioInicial() {
 }
 
 function recargarInventario() {
+  let mandarMensaje = "";
+  let hayError = false;
+
   try {
     const guardado = localStorage.getItem("inventario");
 
@@ -40,15 +43,28 @@ function recargarInventario() {
       }
     }
   } catch (error) {
-    mostrarMensaje("Error al cargar el inventario guardado. Usando inventario inicial.", true);
+    mandarMensaje = "Error al cargar el inventario guardado. Usando inventario inicial.";
+    hayError = true;
+  } finally {
+    if (mandarMensaje !== "") {
+      mostrarMensaje(mandarMensaje, hayError);
+    }
   }
 }
 
 function guardarInventario() {
+  let mandarMensaje = "";
+  let hayError = false;
+
   try {
     localStorage.setItem("inventario", JSON.stringify(inventario));
   } catch (error) {
-    mostrarMensaje("Error al guardar el inventario. Los cambios no se persistirán.", true);
+    mandarMensaje = "Error al guardar el inventario. Los cambios no se persistirán.";
+    hayError = true;
+  } finally {
+    if (mandarMensaje !== "") {
+      mostrarMensaje(mandarMensaje, hayError);
+    }
   }
 }
 
@@ -147,7 +163,7 @@ function venderProducto(productos, nombreProducto, cantidad) {
 
     if (productoEncontrado.cantidadProducto <= 0) {
       productos = productos.filter(producto => producto.nombreProducto !== productoEncontrado.nombreProducto);
-    } 
+    }
     inventario = productos;
 
     mostrarMensaje(`Venta realizada: ${cantidad} x ${productoEncontrado.nombreProducto}`);
@@ -244,30 +260,37 @@ function prepararEdicion(nombre) {
 }
 
 function editarProducto() {
+  let mandarMensaje = "";
+  let hayError = false;
+
   try {
     const nombre = document.getElementById("nombreProductoEditar").value.toLowerCase();
 
     if (nombre === "") {
-      mostrarMensaje("Selecciona un producto para editar.", true);
+      mandarMensaje = "Selecciona un producto para editar.";
+      hayError = true;
       return;
     }
 
     const producto = encontrarProducto(inventario, nombre);
 
     if (!producto) {
-      mostrarMensaje("Producto no encontrado.", true);
+      mandarMensaje = "Producto no encontrado.";
+      hayError = true;
       return;
     }
 
     const nuevaCantidad = document.getElementById("cantidadProductoEditar").value;
     if (!nuevaCantidad || !validarCantidad(nuevaCantidad)) {
-      mostrarMensaje("Cantidad inválida.", true);
+      mandarMensaje = "Cantidad inválida.";
+      hayError = true;
       return;
     }
 
     const nuevoPrecio = document.getElementById("precioProductoEditar").value;
     if (nuevoPrecio === "" || !validarPrecio(nuevoPrecio)) {
-      mostrarMensaje("Precio inválido.", true);
+      mandarMensaje = "Precio inválido.";
+      hayError = true;
       return;
     }
 
@@ -276,13 +299,16 @@ function editarProducto() {
 
     actualizarVistaInventario();
     guardarInventario();
-    mostrarMensaje(`Producto editado: ${nombre}.`);
+    mandarMensaje = `Producto editado: ${nombre}.`;
 
     document.getElementById("nombreProductoEditar").value = "";
     document.getElementById("cantidadProductoEditar").value = "";
     document.getElementById("precioProductoEditar").value = "";
   } catch (error) {
-    mostrarMensaje("Error al editar el producto.", true);
+    mandarMensaje = "Error al editar el producto.";
+    hayError = true;
+  } finally {
+    mostrarMensaje(mandarMensaje, hayError);
   }
 }
 
@@ -296,7 +322,7 @@ actualizarVistaInventario();
 
 document.getElementById("btnSaludar").addEventListener("click", () => {
   const nombreUsuario = document.getElementById("nombreUsuario").value;
-  
+
   if (nombreUsuario !== undefined && nombreUsuario.trim() !== "") {
     saludar(nombreUsuario.trim());
     document.getElementById("nombreUsuario").value = "";

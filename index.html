@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -17,10 +17,12 @@
 <body>
         <div id="aplicacion">
         <h1>Simulador de Stock - <span id="nombreKiosco"></span></h1>
-        <img src="assets/kiosco.jpg" alt="Imagen del kiosco" class="kiosco-image">
         
-        <div id="navigation">
-            <button id="btnIrReportes" onclick="location.href='html/reportes.html'">Ir a Reportes</button>
+        <div id="header-section">
+            <img src="assets/kiosco.jpg" alt="Imagen del kiosco" class="kiosco-image">
+            <div id="navigation">
+                <button id="btnIrReportes" onclick="location.href='html/reportes.html'">Ir a Reportes</button>
+            </div>
         </div>
         
         <div id="greeting">
@@ -32,41 +34,48 @@
 
         <hr>
 
-        <div id="actions">
-            <h2>Acciones</h2>
-            
-            <div>
-                <h3>1. Ver Stock</h3>
-                <a href="#mostrarStock"><button id="btnMostrarStock">Mostrar Stock</button></a>
+        <div id="main-content">
+            <div id="actions">
+                <h2>Acciones</h2>
+                
+                <div>
+                    <h3>1. Ver Stock</h3>
+                    <a href="#mostrarStock"><button id="btnMostrarStock">Mostrar Stock</button></a>
+                </div>
+
+                <div>
+                    <h3>2. Agregar Producto</h3>
+                    <input type="text" id="nombreProductoAgregar" placeholder="Nombre producto">
+                    <input type="number" id="cantidadProductoAgregar" placeholder="Cantidad">
+                    <input type="number" id="precioProductoAgregar" placeholder="Precio">
+                    <button id="btnAgregar">Agregar</button>
+                </div>
+
+                <div>
+                    <h3>3. Vender Producto</h3>
+                    <input type="text" id="nombreProductoVender" placeholder="Nombre producto">
+                    <input type="number" id="cantidadProductoVender" placeholder="Cantidad">
+                    <button id="btnVender">Vender</button>
+                </div>
+
+                <div>
+                    <h3>4. Editar Producto</h3>
+                    <input type="text" id="nombreProductoEditar" placeholder="Nombre producto">
+                    <input type="number" id="cantidadProductoEditar" placeholder="Nueva cantidad">
+                    <input type="number" id="precioProductoEditar" placeholder="Nuevo precio">
+                    <button id="btnEditar">Editar Producto</button>
+                </div>
+
+                <div>
+                    <h3>5. Contar Stock Bajo</h3>
+                    <input type="number" id="numeroUmbral" placeholder="Umbral (ej: 2)">
+                    <button id="btnContarBajo">Contar</button>
+                </div>
             </div>
 
-            <div>
-                <h3>2. Agregar Producto</h3>
-                <input type="text" id="nombreProductoAgregar" placeholder="Nombre producto">
-                <input type="number" id="cantidadProductoAgregar" placeholder="Cantidad">
-                <input type="number" id="precioProductoAgregar" placeholder="Precio">
-                <button id="btnAgregar">Agregar</button>
-            </div>
-
-            <div>
-                <h3>3. Vender Producto</h3>
-                <input type="text" id="nombreProductoVender" placeholder="Nombre producto">
-                <input type="number" id="cantidadProductoVender" placeholder="Cantidad">
-                <button id="btnVender">Vender</button>
-            </div>
-
-            <div>
-                <h3>4. Editar Producto</h3>
-                <input type="text" id="nombreProductoEditar" placeholder="Nombre producto">
-                <input type="number" id="cantidadProductoEditar" placeholder="Nueva cantidad">
-                <input type="number" id="precioProductoEditar" placeholder="Nuevo precio">
-                <button id="btnEditar">Editar Producto</button>
-            </div>
-
-            <div>
-                <h3>5. Contar Stock Bajo</h3>
-                <input type="number" id="numeroUmbral" placeholder="Umbral (ej: 2)">
-                <button id="btnContarBajo">Contar</button>
+            <div id="mostrarStock">
+                <h2>Stock Actual</h2>
+                <div id="listaStock"></div>
             </div>
         </div>
 
@@ -75,11 +84,6 @@
         <div id="output">
             <h2>Resultados</h2>
             <div id="resultados"></div>
-        </div>
-
-        <div id="mostrarStock">
-            <h2>Stock Actual</h2>
-            <div id="listaStock"></div>
         </div>
     </div>
 </body>
